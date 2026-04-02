@@ -4,7 +4,7 @@ set -euo pipefail
 DEBIAN_FRONTEND=noninteractive
 
 K3S_VERSION="v1.34.4+k3s1"
-CILIUM_VERSION="1.19.0"
+CILIUM_VERSION="1.19.2"
 
 USE_FLUX=""
 
@@ -112,6 +112,14 @@ EOF
 
 helm repo add cilium https://helm.cilium.io/
 helm repo update
+
+# wait until the cluster is ready
+log "Waiting for k3s API to turn active..."
+until kubectl --kubeconfig /etc/rancher/k3s/k3s.yaml get nodes >/dev/null 2>&1; do
+  sleep 2
+done
+
+log "Cluster Ready, continue with deploying of manifests"
 
 helm upgrade --install cilium cilium/cilium \
   --namespace kube-system \
