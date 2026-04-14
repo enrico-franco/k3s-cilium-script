@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DEBIAN_FRONTEND=noninteractive
-
-K3S_VERSION="v1.34.4+k3s1"
+K3S_VERSION="v1.34.6+k3s1"
 CILIUM_VERSION="1.19.2"
 
 USE_FLUX=""
@@ -20,8 +18,8 @@ rm -f /swap.img
 
 log "Install Dependencies"
 
-apt update -qq
-apt install -y bash-completion curl
+DEBIAN_FRONTEND=noninteractive apt update -qq
+DEBIAN_FRONTEND=noninteractive apt install -y bash-completion curl
 
 cat << 'EOF' >> /root/.bashrc
 # bash completion
@@ -122,6 +120,7 @@ done
 log "Cluster Ready, continue with deploying of manifests"
 
 helm upgrade --install cilium cilium/cilium \
+  --kubeconfig /etc/rancher/k3s/k3s.yaml \
   --namespace kube-system \
   --version "$CILIUM_VERSION" \
   --wait \
@@ -139,3 +138,5 @@ cat << 'EOF' >> /root/.bashrc
 EOF
 
 fi
+
+echo -e "Remember to run `source .bashrc` to enable completions for the new installed applications!"
