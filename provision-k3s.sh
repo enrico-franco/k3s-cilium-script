@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-K3S_VERSION="v1.34.6+k3s1"
-CILIUM_VERSION="1.19.2"
+DEBIAN_FRONTEND=noninteractive
+
+K3S_VERSION="v1.35.5+k3s1"
+CILIUM_VERSION="1.19.4"
 
 USE_FLUX=""
 

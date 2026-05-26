@@ -12,8 +12,8 @@ This repository provides an automated script (`provision-k3s.sh`) to deploy a si
 Default versions defined in the script:
 
 ```bash
-K3S_VERSION="v1.34.4+k3s1"
-CILIUM_VERSION="1.19.0"
+K3S_VERSION="v1.35.5+k3s1"
+CILIUM_VERSION="1.19.4"
 ```
 
 You can modify these at the top of the script or using environment variables if needed.
