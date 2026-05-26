@@ -141,4 +141,4 @@ EOF
 
 fi
 
-echo -e "Remember to run `source .bashrc` to enable completions for the new installed applications!"
+echo "Remember to run `source .bashrc` to enable completions for the new installed applications!"

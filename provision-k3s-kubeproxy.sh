@@ -130,6 +130,7 @@ done
 log "Cluster Ready, continue with deploying of manifests"
 
 helm upgrade --install cilium cilium/cilium \
+  --kubeconfig /etc/rancher/k3s/k3s.yaml \
   --namespace kube-system \
   --version "$CILIUM_VERSION" \
   --wait \
@@ -148,4 +149,4 @@ EOF
 
 fi
 
-echo -e "Remember to run `source .bashrc` to enable completions for the new installed applications!"
+echo "Remember to run `source .bashrc` to enable completions for the new installed applications!"
