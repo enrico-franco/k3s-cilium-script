@@ -16,6 +16,8 @@ K3S_VERSION="v1.35.5+k3s1"
 CILIUM_VERSION="1.19.4"
 ```
 
+It will add a fix to the AAAA record for the cluster's API server to ensure proper DNS resolution.
+
 You can modify these at the top of the script or using environment variables if needed.
 
 ### Optional Enabling Flux
@@ -23,7 +25,7 @@ You can modify these at the top of the script or using environment variables if 
 To enable Flux installation, edit the script or modify the environment variable:
 
 ```bash
-USE_FLUX="true"
+FLUX_INSTALL="true"
 ```
 
 Then run the script.

@@ -6,7 +6,7 @@ DEBIAN_FRONTEND=noninteractive
 K3S_VERSION="v1.35.5+k3s1"
 CILIUM_VERSION="1.19.4"
 
-USE_FLUX=""
+FLUX_INSTALL=""
 
 log() { echo -e "\n\t--- $* ---\n"; }
 
@@ -56,6 +56,23 @@ net.ipv4.conf.default.rp_filter=0
 EOF
 
 sysctl --system
+
+log "Correct CoreDNS behaviout with IPv6"
+
+mkdir -p /var/lib/rancher/k3s/server/manifests
+
+cat << 'EOF' > /var/lib/rancher/k3s/server/manifests/noaaaa-coredns.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-custom
+  namespace: kube-system
+data:
+  noaaaa.override: |
+    template IN AAAA cluster.local in-addr.arpa {
+      rcode NOERROR
+    }
+EOF
 
 log "Install k3s"
 
@@ -136,7 +153,7 @@ helm upgrade --install cilium cilium/cilium \
   --wait \
   -f /usr/local/etc/cilium/values.yaml
 
-if [ "$USE_FLUX" = "true" ]; then
+if [ "$FLUX_INSTALL" = "true" ]; then
 
 log "Install flux"
 
