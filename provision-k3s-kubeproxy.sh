@@ -110,10 +110,11 @@ EOF
 
 log "Install cilium"
 
+K8S_SERVICE_HOST="$(ip route get 9.9.9.9 | awk '{print $7}')"
 
 mkdir -p /usr/local/etc/cilium/
 
-cat << 'EOF' > /usr/local/etc/cilium/values.yaml
+cat << EOF > /usr/local/etc/cilium/values.yaml
 image:
   pullPolicy: IfNotPresent
 ipam:
@@ -126,7 +127,7 @@ hubble:
     enabled: true
 operator:
   replicas: 1
-k8sServiceHost: "auto"
+k8sServiceHost: "$K8S_SERVICE_HOST"
 k8sServicePort: 6443
 kubeProxyReplacement: true
 bpf:
