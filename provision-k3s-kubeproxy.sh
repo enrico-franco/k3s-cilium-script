@@ -123,11 +123,11 @@ image:
 ipam:
   mode: kubernetes
 hubble:
-  enabled: true
+  enabled: false
   relay:
-    enabled: true
+    enabled: false
   ui:
-    enabled: true
+    enabled: false
 operator:
   replicas: 1
 k8sServiceHost: "$K8S_SERVICE_HOST"
