@@ -12,7 +12,7 @@ This repository provides automated scripts to deploy a single-node Kubernetes cl
 | Script | Description |
 | --- | --- |
 | `provision-k3s.sh` | k3s with the default `kube-proxy`, Cilium as CNI. |
-| `provision-k3s-kubeproxy.sh` | k3s with `kube-proxy` disabled, Cilium running in kube-proxy replacement mode (`kubeProxyReplacement: true`). The node IP is auto-detected for `k8sServiceHost`. |
+| `git apply kube-proxy-replacement.patch` and use tthe same script as above | k3s with `kube-proxy` disabled, Cilium running in kube-proxy replacement mode (`kubeProxyReplacement: true`). The node IP is auto-detected for `k8sServiceHost`. |
 
 Both must be run as **root**.
 
