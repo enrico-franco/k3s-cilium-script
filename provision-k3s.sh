@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/sh
+set -eu
 
 DEBIAN_FRONTEND=noninteractive
 
@@ -9,7 +9,7 @@ HELM_VERSION="v3.21.1"
 
 FLUX_INSTALL=""
 
-log() { echo -e "\n\t--- $* ---\n"; }
+log() { printf '\n\t--- %s ---\n\n' "$*"; }
 
 echo "###### Installation of k3s with cilium + helm ######"
 
@@ -31,6 +31,7 @@ grep -q '# bash completion' /root/.bashrc || cat << 'EOF' >> /root/.bashrc
 . /usr/share/bash-completion/bash_completion
 EOF
 
+# it needs bash as the interpreter
 curl -fsSL https://raw.githubusercontent.com/helm/helm/refs/heads/main/scripts/get-helm-3 | bash -s -- --version "${HELM_VERSION}"
 
 grep -q '# helm completions' /root/.bashrc || cat << 'EOF' >> /root/.bashrc
@@ -134,9 +135,16 @@ helm repo update
 
 # wait until the cluster is ready
 log "Waiting for k3s API to turn active..."
-for i in $(seq 1 60); do
-  kubectl --kubeconfig /etc/rancher/k3s/k3s.yaml get nodes >/dev/null 2>&1 && break
-  [ "$i" -eq 60 ] && { log "k3s API did not come up in time"; exit 1; }
+i=0
+while [ "$i" -lt 60 ]; do
+  if kubectl --kubeconfig /etc/rancher/k3s/k3s.yaml get nodes >/dev/null 2>&1; then
+    break
+  fi
+  i=$((i + 1))
+  if [ "$i" -eq 60 ]; then
+    log "k3s API did not come up in time"
+    exit 1
+  fi
   sleep 2
 done
 
@@ -153,6 +161,7 @@ if [ "$FLUX_INSTALL" = "true" ]; then
 
 log "Install flux"
 
+# it needs bash as the interpreter
 curl -sfL https://fluxcd.io/install.sh | bash
 
 grep -q '# flux completion' /root/.bashrc || cat << 'EOF' >> /root/.bashrc

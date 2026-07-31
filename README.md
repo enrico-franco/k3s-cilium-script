@@ -27,7 +27,7 @@ script.
 
 Run the script as root:
 
-```bash
+```sh
 sudo ./provision-k3s.sh
 ```
 
@@ -37,7 +37,7 @@ When the script is complete, run `source /root/.bashrc` to get the shell complet
 
 The versions are pinned at the top of the script:
 
-```bash
+```sh
 K3S_VERSION="v1.35.5+k3s1"
 CILIUM_VERSION="1.19.4"
 HELM_VERSION="v3.21.1"
@@ -52,7 +52,7 @@ The variant also turns on L2 announcements.
 
 Apply the patch, then run the script:
 
-```bash
+```sh
 git apply kube-proxy-replacement.patch
 sudo ./provision-k3s.sh
 ```
@@ -70,7 +70,7 @@ The patch makes these changes to the script:
 
 To go back to the default `kube-proxy`, reverse the patch:
 
-```bash
+```sh
 git apply -R kube-proxy-replacement.patch
 ```
 
@@ -82,7 +82,7 @@ git apply -R kube-proxy-replacement.patch
 
 To install Flux, set this variable at the top of the script:
 
-```bash
+```sh
 FLUX_INSTALL="true"
 ```
 
