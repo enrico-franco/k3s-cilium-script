@@ -80,7 +80,7 @@ git apply -R kube-proxy-replacement.patch
 
 ## Optional: Flux
 
-To install Flux, set this variable at the top of the script:
+To install Flux CLI on the Host machine, set this variable at the top of the script:
 
 ```sh
 FLUX_INSTALL="true"

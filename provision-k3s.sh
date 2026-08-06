@@ -48,6 +48,8 @@ kernel.panic=10
 kernel.panic_on_oops=1
 kernel.keys.root_maxbytes=25000000
 fs.inotify.max_user_instances=1024
+fs.inotify.max_user_watches=524288
+fs.inotify.max_queued_events=16384
 EOF
 
 cat << 'EOF' > /etc/sysctl.d/91_cilium.conf
@@ -96,7 +98,7 @@ disable:
 - servicelb
 - local-storage
 kube-controller-manager-arg:
-- allocate-node-cidrs
+- allocate-node-cidrs=true
 kube-proxy-arg:
 - metrics-bind-address=0.0.0.0
 EOF
@@ -159,7 +161,7 @@ helm upgrade --install cilium cilium/cilium \
 
 if [ "$FLUX_INSTALL" = "true" ]; then
 
-log "Install flux"
+log "Install flux on the Host machine"
 
 # it needs bash as the interpreter
 curl -sfL https://fluxcd.io/install.sh | bash

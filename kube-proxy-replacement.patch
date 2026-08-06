@@ -1,8 +1,8 @@
 diff --git a/provision-k3s.sh b/provision-k3s.sh
-index 96bf1ae..df141f4 100644
+index 8132d7c..44b3aea 100644
 --- a/provision-k3s.sh
 +++ b/provision-k3s.sh
-@@ -89,20 +89,19 @@ cluster-cidr: "10.42.0.0/16"
+@@ -90,20 +90,19 @@ cluster-cidr: "10.42.0.0/16"
  service-cidr: "10.43.0.0/16"
  cluster-dns: "10.43.0.10"
  flannel-backend:
@@ -15,7 +15,7 @@ index 96bf1ae..df141f4 100644
  - servicelb
  - local-storage
  kube-controller-manager-arg:
- - allocate-node-cidrs
+ - allocate-node-cidrs=true
 -kube-proxy-arg:
 -- metrics-bind-address=0.0.0.0
  EOF
@@ -24,7 +24,7 @@ index 96bf1ae..df141f4 100644
    INSTALL_K3S_VERSION="$K3S_VERSION" sh -s - server
  
  grep -q '# kube aliases and completion' /root/.bashrc || cat << 'EOF' >> /root/.bashrc
-@@ -113,25 +112,36 @@ complete -o default -F __start_kubectl k
+@@ -114,25 +113,36 @@ complete -o default -F __start_kubectl k
  
  export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
  EOF
